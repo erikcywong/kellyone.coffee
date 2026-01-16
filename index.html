@@ -1,0 +1,2495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KELLYONE COFFEE® | 重构全球咖啡价值链蓝图</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #0F1419;
+            --bg-card: #1E2732;
+            --text-primary: #F7F9F9;
+            --text-secondary: #8B98A5;
+            --accent-green: #1D9BF0;
+            --accent-blue: #1D9BF0;
+            --accent-orange: #FF6B35;
+            --accent-purple: #7856FF;
+            --accent-yellow: #FFD700;
+            --accent-cyan: #00C2FF;
+            --accent-pink: #F91880;
+            --border-color: #2F3336;
+            --transition-speed: 0.2s;
+            --sidebar-width: 275px;
+            --content-width: 600px;
+            --right-sidebar-width: 350px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* X.com风格布局 */
+        .container {
+            display: flex;
+            max-width: 1265px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* 左侧导航栏 */
+        .sidebar-left {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            padding: 1rem;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            background-color: var(--bg-primary);
+        }
+
+        .logo {
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo h2 {
+            font-size: 1.8rem;
+            color: var(--accent-green);
+            display: inline-block;
+            position: relative;
+        }
+
+        .trademark-symbol {
+            font-size: 0.7rem;
+            color: var(--accent-green);
+            vertical-align: super;
+            margin-left: 2px;
+        }
+
+        .nav-menu {
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(29, 155, 240, 0.1);
+        }
+
+        .nav-item.active {
+            font-weight: bold;
+            color: var(--accent-blue);
+        }
+
+        .nav-item i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-text {
+            font-size: 1.2rem;
+        }
+
+        .ecosystem-badge {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+            width: 100%;
+        }
+
+        .ecosystem-badge:hover {
+            background-color: #1a8cd8;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: var(--content-width);
+            border-right: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color);
+            min-height: 100vh;
+        }
+
+        /* 右侧信息栏 */
+        .sidebar-right {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: var(--right-sidebar-width);
+            height: 100vh;
+            padding: 1rem;
+            overflow-y: auto;
+            border-left: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            z-index: 1000;
+        }
+
+        /* 内容卡片 - X.com风格 */
+        .content-card {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            transition: background-color var(--transition-speed);
+        }
+
+        .content-card:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            /* 关键修复：确保锚点定位准确 */
+            scroll-margin-top: 80px;
+        }
+
+        .section-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* 数据指标卡片 */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .metric-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .metric-card.green .metric-value {
+            color: var(--accent-green);
+        }
+
+        .metric-card.blue .metric-value {
+            color: var(--accent-blue);
+        }
+
+        .metric-card.orange .metric-value {
+            color: var(--accent-orange);
+        }
+
+        .metric-card.purple .metric-value {
+            color: var(--accent-purple);
+        }
+
+        /* 生态平台网格 */
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .platform-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(29, 155, 240, 0.15);
+            border-color: var(--accent-blue);
+        }
+
+        .platform-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .platform-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .platform-icon.green {
+            background: linear-gradient(135deg, var(--accent-green), #00cc6a);
+        }
+
+        .platform-icon.blue {
+            background: linear-gradient(135deg, var(--accent-blue), #0077cc);
+        }
+
+        .platform-icon.orange {
+            background: linear-gradient(135deg, var(--accent-orange), #ff4d00);
+        }
+
+        .platform-icon.purple {
+            background: linear-gradient(135deg, var(--accent-purple), #7b2cbf);
+        }
+
+        .platform-icon.cyan {
+            background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
+        }
+
+        .platform-icon.pink {
+            background: linear-gradient(135deg, var(--accent-pink), #cc0066);
+        }
+
+        .platform-icon.brown {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+        }
+
+        .platform-icon.yellow {
+            background: linear-gradient(135deg, var(--accent-yellow), #ffaa00);
+        }
+
+        .platform-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .platform-domain {
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .platform-domain i {
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .platform-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* 商业模式蓝图 */
+        .blueprint-container {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blueprint-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .blueprint-title i {
+            margin-right: 0.75rem;
+            color: var(--accent-blue);
+        }
+
+        .blueprint-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .blueprint-center {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: white;
+            margin-bottom: 3rem;
+            z-index: 2;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 0 30px rgba(29, 155, 240, 0.5);
+            border: 4px solid white;
+        }
+
+        .blueprint-layer {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .blueprint-node {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 0.5rem;
+            width: 200px;
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-speed);
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .blueprint-node:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-blue);
+            box-shadow: 0 5px 15px rgba(29, 155, 240, 0.2);
+        }
+
+        .node-connector {
+            position: absolute;
+            height: 2px;
+            background-color: var(--accent-blue);
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .connector-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 6px 0 6px 10px;
+            border-color: transparent transparent transparent var(--accent-blue);
+            z-index: 0;
+        }
+
+        /* 财务图表 */
+        .chart-container {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-color);
+            height: 300px;
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .chart-title i {
+            margin-right: 0.5rem;
+            color: var(--accent-blue);
+        }
+
+        /* 右侧信息栏内容 */
+        .right-section {
+            margin-bottom: 2rem;
+        }
+
+        .right-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .contact-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            transition: background-color var(--transition-speed);
+        }
+
+        .contact-item:hover {
+            background-color: rgba(29, 155, 240, 0.1);
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(29, 155, 240, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--accent-blue);
+            font-size: 1.2rem;
+        }
+
+        .contact-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1300px) {
+            .sidebar-right {
+                display: none;
+            }
+            
+            .container {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .sidebar-left {
+                width: 70px;
+                align-items: center;
+            }
+            
+            .nav-text, .logo h2 span:not(.trademark-symbol), .ecosystem-badge span {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+            
+            .nav-item {
+                justify-content: center;
+                padding: 0.75rem;
+            }
+            
+            .nav-item i {
+                margin-right: 0;
+            }
+            
+            .logo {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                width: 100%;
+                margin-left: 70px;
+            }
+            
+            .blueprint-layer {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .blueprint-node {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* 高亮文本 */
+        .highlight {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .highlight-green {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .highlight-orange {
+            color: var(--accent-orange);
+            font-weight: bold;
+        }
+
+        .highlight-purple {
+            color: var(--accent-purple);
+            font-weight: bold;
+        }
+
+        /* 融资卡片 */
+        .funding-card {
+            background: linear-gradient(135deg, rgba(29, 155, 240, 0.1), rgba(0, 255, 136, 0.1));
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(29, 155, 240, 0.3);
+        }
+
+        .funding-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .funding-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .funding-item {
+            text-align: center;
+        }
+
+        .funding-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-green);
+        }
+
+        .funding-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 按钮样式 */
+        .primary-button {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .primary-button:hover {
+            background-color: #1a8cd8;
+        }
+
+        .primary-button i {
+            margin-right: 0.5rem;
+        }
+
+        /* 模态框样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            padding: 2rem 0;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--accent-blue);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-header h2 i {
+            margin-right: 0.75rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 盈利模式标签 */
+        .profit-model-tag {
+            display: inline-block;
+            background-color: rgba(0, 255, 136, 0.1);
+            color: var(--accent-green);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 蓝图节点盈利模式样式 */
+        .profit-modes {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .profit-mode-item {
+            display: inline-block;
+            background-color: rgba(29, 155, 240, 0.1);
+            color: var(--accent-blue);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.75rem;
+        }
+        
+        /* 修复导航滚动问题 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 添加滚动容器的padding-top，防止内容被固定导航栏遮挡 */
+        .main-content {
+            padding-top: 20px;
+        }
+        
+        /* 注册商标符号样式 */
+        .registered-symbol {
+            font-size: 0.6rem;
+            vertical-align: super;
+            margin-left: 2px;
+            color: var(--accent-green);
+        }
+        
+        /* 预约表单样式改进 */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 700px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* 改进的预约会议样式 */
+        .booking-step {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .booking-step.active {
+            display: block;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .step.active .step-number {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: white;
+        }
+        
+        .step.completed .step-number {
+            background-color: var(--accent-green);
+            border-color: var(--accent-green);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        
+        .step.active .step-label {
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+        
+        .step.completed .step-label {
+            color: var(--accent-green);
+        }
+        
+        .booking-summary {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .summary-label {
+            color: var(--text-secondary);
+        }
+        
+        .summary-value {
+            font-weight: 500;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <div class="sidebar-left">
+            <div class="logo">
+                <h2>KELLYONE COFFEE<span class="registered-symbol">®</span></h2>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="#overview" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">项目概览</span>
+                </a>
+                <a href="#ecosystem" class="nav-item">
+                    <i class="fas fa-network-wired"></i>
+                    <span class="nav-text">生态网络</span>
+                </a>
+                <a href="#technology" class="nav-item">
+                    <i class="fas fa-flask"></i>
+                    <span class="nav-text">技术优势</span>
+                </a>
+                <a href="#blueprint" class="nav-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span class="nav-text">商业模式</span>
+                </a>
+                <a href="#finance" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="nav-text">幼苗财务预测</span>
+                </a>
+                <a href="#team" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span class="nav-text">团队与联系</span>
+                </a>
+            </div>
+            
+            <button class="ecosystem-badge" id="openEcoModal">
+                <i class="fas fa-external-link-alt"></i>
+                <span>探索9大平台</span>
+            </button>
+        </div>
+        
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 项目概览 -->
+            <div class="section-header" id="overview">
+                <h1>KELLYONE COFFEE<span class="registered-symbol">®</span> | 重构全球咖啡价值链蓝图</h1>
+                <p>全球首个覆盖咖啡全产业链的9大平台闭环生态系统 · 基于水培技术与数字资产化</p>
+            </div>
+            
+            <div class="content-card">
+                <h2>解决ICO报告指出的全球咖啡产业危机</h2>
+                <p>根据<a href="#" id="openIcoReport" style="color: var(--accent-blue); text-decoration: underline; cursor: pointer;">国际咖啡组织(ICO)2017年研究报告</a>，气候变暖将导致到<span class="highlight">2050年全球咖啡种植面积减少50%</span>。KELLYONE COFFEE通过创新技术生态系统，提供切实可行的解决方案。</p>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card green">
+                        <div class="metric-value">95%</div>
+                        <div class="metric-label">节水率</div>
+                    </div>
+                    <div class="metric-card blue">
+                        <div class="metric-value">3个月</div>
+                        <div class="metric-label">生长周期（传统为6个月）</div>
+                    </div>
+                    <div class="metric-card orange">
+                        <div class="metric-value">70%</div>
+                        <div class="metric-label">净利润率</div>
+                    </div>
+                    <div class="metric-card purple">
+                        <div class="metric-value">5倍</div>
+                        <div class="metric-label">土地使用效率</div>
+                    </div>
+                </div>
+                
+                <div class="funding-card">
+                    <h3>天使轮融资需求</h3>
+                    <div class="funding-amount">¥1,000,000</div>
+                    <p>用于硬件设备投入，创建初期种植咖啡幼苗自我造血系统</p>
+                    
+                    <div class="funding-detail">
+                        <div class="funding-item">
+                            <div class="funding-value">10%</div>
+                            <div class="funding-label">股权占比</div>
+                        </div>
+                        <div class="funding-item">
+                            <div class="funding-value">120万</div>
+                            <div class="funding-label">首年预期收入</div>
+                        </div>
+                        <div class="funding-item">
+                            <div class="funding-value">70%</div>
+                            <div class="funding-label">净利润率</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 生态网络 -->
+            <div class="section-header" id="ecosystem">
+                <h1>9大平台生态系统</h1>
+                <p>覆盖咖啡全产业链的数字化闭环网络，实现价值最大化与内循环</p>
+            </div>
+            
+            <div class="content-card">
+                <div class="platforms-grid">
+                    <!-- 生产平台 -->
+                    <div class="platform-card" data-url="https://www.nexcoffee.cn">
+                        <div class="platform-icon green">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="platform-name">零碳农业与RWA资产创建</div>
+                        <div class="platform-domain">
+                            <i class="fas fa-external-link-alt"></i> www.nexcoffee.cn
+                        </div>
+                        <div class="platform-description">水培农场运营、实物资产(RWA)代币化、碳信用生成。生态源头，生产利润与数字资产铸造中心。</div>
+                        <div style="margin-top: 0.75rem;">
+                            <span class="profit-model-tag">RWA代币化收入</span>
+                            <span class="profit-model-tag">碳信用交易</span>
+                            <span class="profit-model-tag">咖啡豆销售</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 技术平台 -->
+                    <div class="platform-card" data-url="https://www.hydrocoffee.cn">
+                        <div class="platform-icon orange">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="platform-name">水培技术研发中心</div>
+                        <div class="platform-domain">
+                            <i class="fas fa-external-link-alt"></i> www.hydrocoffee.cn
+                        </div>
+                        <div class="platform-description">气雾栽培技术研发、系统解决方案、农场部署。核心技术壁垒，设备与方案输出。</div>
+                        <div style="margin-top: 0.75rem;">
+                            <span class="profit-model-tag">技术授权费</span>
+                            <span class="profit-model-tag">设备销售</span>
+                            <span class="profit-model-tag">咨询服务</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 加工平台 -->
+                    <div class="platform-card" data-url="http://www.jebiwork.com">
+                        <div class="platform-icon brown">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="platform-name">咖啡加工与烘焙平台</div>
+                        <div class="platform-domain">
+                            <i class="fas fa-external-link-alt"></i> www.jebiwork.com
+                        </div>
+                        <div class="platform-description">专业咖啡豆加工、定制化烘焙方案、品质检测、供应链管理。连接生产与消费的关键环节。</div>
+                        <div style="margin-top: 0.75rem;">
+                            <span class="profit-model-tag">加工服务费</span>
+                            <span class="profit-model-tag">烘焙产品销售</span>
+                            <span class="profit-model-tag">品质检测服务</span>
+                        </div>
+                    </div>
+                    
+                    <!-- AI操作系统 -->
+                    <div class="platform-card" data-url="https://www.jebi.one">
+                        <div class="platform-icon cyan">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="platform-name">咖啡产业AI操作系统</div>
+                        <div class="platform-domain">
+                            <i class="fas fa-external-link-alt"></i> www.jebi.one
+                        </div>
+                        <div class="platform-description">全产业链数据整合、AI决策、质量检测、供应链管理。产业大脑，数据服务与效率提升中心。</div>
+                        <div style="margin-top: 0.75rem;">
+                            <span class="profit-model-tag">SaaS订阅费</span>
+                            <span class="profit-model-tag">数据分析服务</span>
+                            <span class="profit-model-tag">AI决策咨询</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 数字银行 -->
+                    <div class="platform-card" data-url="https://www.SHINAEbank.com">
+                        <div class="platform-icon blue">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="platform-name">咖啡产业数字银行</div>
+                        <div class="platform-domain">
+                            <i class="fas fa-external-link-alt"></i> www.SHINAEbank.com
+                        </div>
+                        <div class="platform-description">智能云仓、供应链金融、现货期货交易、产业保险。产业链资金枢纽，风险管控与流动性提供者。</div>
+                        <div style="margin-top: 0.75rem;">
+                            <span class="profit-model-tag">金融服务费</span>
+                            <span class="profit-model-tag">交易手续费</span>
+                            <span class="profit-model-tag">保险佣金</span>
+                        </div>
+                    </div>
+                    
+                    <!-- IP与数字资产 -->
+                    <div class="platform-card" data-url="https://www.curvecopyright.com">
+                        <div class="platform-icon pink">
+                            <i class="fas fa-copyright"></i>
+                        </div>
+                        <div class="platform-name">咖啡IP与数字资产平台</div>
+                        <div class="platform-domain">
+                            <i class="fas fa-external-link-alt"></i> www.curvecopyright.com
+                        </div>
+                        <div class="platform-description">烘焙曲线IP数据库、RWA数字护照、NFT交易、AI烘焙机。无形资产变现，品质标准化与溯源核心。</div>
+                        <div style="margin-top: 0.75rem;">
+                            <span class="profit-model-tag">IP授权费</span>
+                            <span class="profit-model-tag">NFT交易佣金</span>
+                            <span class="profit-model-tag">数字护照服务费</span>
+                        </div>
+                    </div>
+                    
+                    <!-- REITs平台 -->
+                    <div class="platform-card" data-url="https://www.REITs.cafe">
+                        <div class="platform-icon purple">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="platform-name">咖啡全产业链REITs平台</div>
+                        <div class="platform-domain">
+                            <i class="fas fa-external-link-alt"></i> www.REITs.cafe
+                        </div>
+                        <div class="platform-description">农场、加工厂、门店等实物资产证券化、REITs发行与交易。重资产资本化，吸引大规模资本。</div>
+                        <div style="margin-top: 0.75rem;">
+                            <span class="profit-model-tag">资产管理费</span>
+                            <span class="profit-model-tag">REITs发行佣金</span>
+                            <span class="profit-model-tag">交易手续费</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 众筹零售 -->
+                    <div class="platform-card" data-url="https://www.jebistarter.com">
+                        <div class="platform-icon yellow">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <div class="platform-name">低碳生活众筹与零售</div>
+                        <div class="platform-domain">
+                            <i class="fas fa-external-link-alt"></i> www.jebistarter.com
+                        </div>
+                        <div class="platform-description">创新产品众筹、可持续零售、社区体验、低碳教育。消费端流量入口，品牌体验与社区运营中心。</div>
+                        <div style="margin-top: 0.75rem;">
+                            <span class="profit-model-tag">众筹佣金</span>
+                            <span class="profit-model-tag">零售利润</span>
+                            <span class="profit-model-tag">社区会员费</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 品牌连锁 -->
+                    <div class="platform-card" data-url="https://www.jebi.cafe">
+                        <div class="platform-icon brown">
+                            <i class="fas fa-coffee"></i>
+                        </div>
+                        <div class="platform-name">零碳精品咖啡连锁品牌</div>
+                        <div class="platform-domain">
+                            <i class="fas fa-external-link-alt"></i> www.jebi.cafe
+                        </div>
+                        <div class="platform-description">线下精品咖啡门店、零碳消费体验、品牌价值实现。最终价值出口，高溢价品牌零售，现金流来源。</div>
+                        <div style="margin-top: 0.75rem;">
+                            <span class="profit-model-tag">门店零售收入</span>
+                            <span class="profit-model-tag">加盟费</span>
+                            <span class="profit-model-tag">品牌授权费</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="primary-button" id="viewEcosystem" style="width: 100%; margin-top: 1.5rem;">
+                    <i class="fas fa-expand-alt"></i> 查看完整生态系统交互图
+                </button>
+            </div>
+            
+            <!-- 技术优势 -->
+            <div class="section-header" id="technology">
+                <h1>核心技术优势</h1>
+                <p>基于基因验证的巴拿马瑰夏技术与水培系统</p>
+            </div>
+            
+            <div class="content-card">
+                <h3>基因验证巴拿马瑰夏技术</h3>
+                <p>通过SNP分子标记基因检测，确保<span class="highlight-green">100%纯种巴拿马瑰夏</span>，建立可追溯的基因身份证系统。</p>
+                
+                <div class="metrics-grid" style="margin-top: 1.5rem;">
+                    <div class="metric-card green">
+                        <div class="metric-value">95%+</div>
+                        <div class="metric-label">幼苗存活率</div>
+                    </div>
+                    <div class="metric-card blue">
+                        <div class="metric-value">30%</div>
+                        <div class="metric-label">产量提升</div>
+                    </div>
+                    <div class="metric-card orange">
+                        <div class="metric-value">30%</div>
+                        <div class="metric-label">生长速度提升</div>
+                    </div>
+                    <div class="metric-card purple">
+                        <div class="metric-value">100%</div>
+                        <div class="metric-label">可复制性</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 1.5rem;">商业及盈利模式</h3>
+                <div style="margin-top: 1rem; padding: 1.5rem; background-color: rgba(29, 155, 240, 0.1); border-radius: 12px;">
+                    <h4 style="color: var(--accent-blue); margin-bottom: 1rem;">基因验证技术的盈利模式</h4>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li><span class="highlight-green">基因检测服务费</span>：为咖啡种植者提供基因验证服务，确保品种纯正</li>
+                        <li><span class="highlight-green">认证幼苗销售</span>：销售经过基因验证的纯种巴拿马瑰夏幼苗，单株利润3元</li>
+                        <li><span class="highlight-green">基因身份证系统订阅</span>：为每株咖啡建立可追溯的基因档案，收取年费</li>
+                        <li><span class="highlight-green">技术授权与培训</span>：向其他种植基地授权基因验证技术并提供培训</li>
+                        <li><span class="highlight-green">数据服务</span>：积累的基因数据为育种研究提供价值，可进行数据授权</li>
+                    </ul>
+                </div>
+                
+                <h3 style="margin-top: 1.5rem;">市场验证成果</h3>
+                <ul style="margin-top: 1rem; padding-left: 1.5rem; color: var(--text-secondary);">
+                    <li>已落实广州郊区种植场地</li>
+                    <li>获得<span class="highlight">全国唯一独家授权巴拿马原种子认证机构的幼苗订单</span></li>
+                    <li>单株利润<span class="highlight">3元</span>，首批订单利润<span class="highlight">1,200,000元</span></li>
+                    <li>云南咖啡幼苗市场规模：<span class="highlight">4000万-6000万株/年</span></li>
+                    <li>已与3家咖啡种植基地达成合作意向</li>
+                </ul>
+            </div>
+            
+            <!-- 商业模式蓝图 -->
+            <div class="section-header" id="blueprint">
+                <h1>商业模式蓝图</h1>
+                <p>9大平台互动赋能，形成价值闭环与增长飞轮</p>
+            </div>
+            
+            <div class="content-card">
+                <div class="blueprint-container">
+                    <div class="blueprint-title">
+                        <i class="fas fa-infinity"></i> KELLYONE COFFEE<span class="registered-symbol">®</span>生态系统价值闭环
+                    </div>
+                    
+                    <div class="blueprint-diagram">
+                        <div class="blueprint-center">
+                            <div>JEBI</div>
+                            <div>生态系统</div>
+                            <div style="font-size: 0.8rem; margin-top: 0.5rem;">价值中枢</div>
+                        </div>
+                        
+                        <!-- 第一层：生产与加工 -->
+                        <div class="blueprint-layer" style="margin-bottom: 3rem;">
+                            <div class="blueprint-node" data-url="https://www.nexcoffee.cn" style="border-color: var(--accent-green);">
+                                <div style="color: var(--accent-green); font-weight: bold; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-seedling"></i> 生产/RWA
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    nexcoffee.cn<br>创造咖啡豆RWA与碳信用
+                                </div>
+                                <div class="profit-modes" style="margin-top: 0.5rem;">
+                                    <span class="profit-mode-item">RWA代币化</span>
+                                    <span class="profit-mode-item">碳信用交易</span>
+                                    <span class="profit-mode-item">咖啡豆销售</span>
+                                </div>
+                            </div>
+                            
+                            <div class="blueprint-node" data-url="http://www.jebiwork.com" style="border-color: #8B4513;">
+                                <div style="color: #8B4513; font-weight: bold; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-fire"></i> 加工烘焙
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    jebiwork.com<br>提升产品附加值
+                                </div>
+                                <div class="profit-modes" style="margin-top: 0.5rem;">
+                                    <span class="profit-mode-item">加工服务费</span>
+                                    <span class="profit-mode-item">烘焙产品销售</span>
+                                    <span class="profit-mode-item">品质检测</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 第二层：数字化与IP -->
+                        <div class="blueprint-layer" style="margin-bottom: 3rem;">
+                            <div class="blueprint-node" data-url="https://www.jebi.one" style="border-color: var(--accent-cyan);">
+                                <div style="color: var(--accent-cyan); font-weight: bold; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-brain"></i> AI操作系统
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    jebi.one<br>数据整合与智能决策
+                                </div>
+                                <div class="profit-modes" style="margin-top: 0.5rem;">
+                                    <span class="profit-mode-item">SaaS订阅</span>
+                                    <span class="profit-mode-item">数据分析</span>
+                                    <span class="profit-mode-item">AI咨询</span>
+                                </div>
+                            </div>
+                            
+                            <div class="blueprint-node" data-url="https://www.curvecopyright.com" style="border-color: var(--accent-pink);">
+                                <div style="color: var(--accent-pink); font-weight: bold; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-copyright"></i> IP与数字资产
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    curvecopyright.com<br>资产化IP与NFT
+                                </div>
+                                <div class="profit-modes" style="margin-top: 0.5rem;">
+                                    <span class="profit-mode-item">IP授权费</span>
+                                    <span class="profit-mode-item">NFT佣金</span>
+                                    <span class="profit-mode-item">数字护照</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 第三层：金融与资本 -->
+                        <div class="blueprint-layer" style="margin-bottom: 3rem;">
+                            <div class="blueprint-node" data-url="https://www.SHINAEbank.com" style="border-color: var(--accent-blue);">
+                                <div style="color: var(--accent-blue); font-weight: bold; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-university"></i> 数字金融
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    SHINAEbank.com<br>供应链金融与交易
+                                </div>
+                                <div class="profit-modes" style="margin-top: 0.5rem;">
+                                    <span class="profit-mode-item">金融服务费</span>
+                                    <span class="profit-mode-item">交易手续费</span>
+                                    <span class="profit-mode-item">保险佣金</span>
+                                </div>
+                            </div>
+                            
+                            <div class="blueprint-node" data-url="https://www.REITs.cafe" style="border-color: var(--accent-purple);">
+                                <div style="color: var(--accent-purple); font-weight: bold; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-chart-line"></i> 资产证券化
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    REITs.cafe<br>REITs发行与交易
+                                </div>
+                                <div class="profit-modes" style="margin-top: 0.5rem;">
+                                    <span class="profit-mode-item">资产管理费</span>
+                                    <span class="profit-mode-item">REITs佣金</span>
+                                    <span class="profit-mode-item">交易手续费</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 第四层：消费与品牌 -->
+                        <div class="blueprint-layer">
+                            <div class="blueprint-node" data-url="https://www.jebi.cafe" style="border-color: #8B4513;">
+                                <div style="color: #8B4513; font-weight: bold; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-coffee"></i> 品牌零售
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    jebi.cafe<br>实现品牌溢价与现金流
+                                </div>
+                                <div class="profit-modes" style="margin-top: 0.5rem;">
+                                    <span class="profit-mode-item">门店零售</span>
+                                    <span class="profit-mode-item">加盟费</span>
+                                    <span class="profit-mode-item">品牌授权</span>
+                                </div>
+                            </div>
+                            
+                            <div class="blueprint-node" data-url="https://www.jebistarter.com" style="border-color: var(--accent-yellow);">
+                                <div style="color: var(--accent-yellow); font-weight: bold; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-hands-helping"></i> 众筹与社区
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    jebistarter.com<br>市场验证与社区构建
+                                </div>
+                                <div class="profit-modes" style="margin-top: 0.5rem;">
+                                    <span class="profit-mode-item">众筹佣金</span>
+                                    <span class="profit-mode-item">零售利润</span>
+                                    <span class="profit-mode-item">会员费</span>
+                                </div>
+                            </div>
+                            
+                            <div class="blueprint-node" data-url="https://www.hydrocoffee.cn" style="border-color: var(--accent-orange);">
+                                <div style="color: var(--accent-orange); font-weight: bold; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-cogs"></i> 技术研发
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    hydrocoffee.cn<br>技术迭代与方案输出
+                                </div>
+                                <div class="profit-modes" style="margin-top: 0.5rem;">
+                                    <span class="profit-mode-item">技术授权</span>
+                                    <span class="profit-mode-item">设备销售</span>
+                                    <span class="profit-mode-item">咨询服务</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding: 1.5rem; background-color: rgba(29, 155, 240, 0.1); border-radius: 12px;">
+                        <h4 style="color: var(--accent-blue); margin-bottom: 1rem;">
+                            <i class="fas fa-sync-alt"></i> 闭环生态系统价值流
+                        </h4>
+                        <p style="color: var(--text-secondary);">
+                            <span class="highlight-green">生产创造资产</span> → 
+                            <span class="highlight-orange">加工提升价值</span> → 
+                            <span class="highlight">数字化与IP化</span> → 
+                            <span class="highlight-blue">金融化与证券化</span> → 
+                            <span class="highlight-purple">品牌消费实现价值</span> → 
+                            <span class="highlight">数据反馈优化生产</span>
+                        </p>
+                        <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+                            9大平台形成完整内循环，价值在系统内循环放大，极少外流，形成自我强化的增长飞轮。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 财务预测 -->
+            <div class="section-header" id="finance">
+                <h1>幼苗财务预测与投资回报</h1>
+                <p>基于市场验证的三年发展计划</p>
+            </div>
+            
+            <div class="content-card">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-chart-line"></i> 三年收入与利润预测（万元）
+                    </div>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                    <div class="metric-card green">
+                        <div class="metric-value">¥120万</div>
+                        <div class="metric-label">第一年预期收入</div>
+                    </div>
+                    <div class="metric-card blue">
+                        <div class="metric-value">¥360万</div>
+                        <div class="metric-label">第二年预期收入</div>
+                    </div>
+                    <div class="metric-card orange">
+                        <div class="metric-value">¥800万</div>
+                        <div class="metric-label">第三年预期收入</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 1.5rem;">资金使用计划</h3>
+                <div class="chart-container" style="height: 250px;">
+                    <canvas id="fundingChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- 团队与联系 -->
+            <div class="section-header" id="team">
+                <h1>团队与联系信息</h1>
+                <p>深耕咖啡产业的实践者团队</p>
+            </div>
+            
+            <div class="content-card">
+                <h3>投资与合作咨询</h3>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                    我们欢迎有远见的天使投资人与我们共同开创咖啡种植的新未来。以下是我们的联系方式：
+                </p>
+                
+                <div class="contact-card">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-weixin"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h4>微信</h4>
+                            <p>+8615800222338 / JEBI_ONE</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h4>电子邮箱</h4>
+                            <p>erik.wong@jebi.space</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h4>WhatsApp</h4>
+                            <p>+852 9318 8252</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; padding: 1.5rem; background-color: rgba(29, 155, 240, 0.1); border-radius: 12px;">
+                    <h4 style="color: var(--accent-blue); margin-bottom: 1rem;">
+                        <i class="fas fa-clock"></i> 会议安排
+                    </h4>
+                    <p style="color: var(--text-secondary);">
+                        我们可安排线上或线下会议，详细展示：<br>
+                        • 技术演示与基地参观<br>
+                        • 完整的商业计划书<br>
+                        • 财务模型与投资回报分析<br>
+                        • 团队深度交流
+                    </p>
+                </div>
+                
+                <button class="primary-button" style="width: 100%; margin-top: 1.5rem;" id="openBookingModal">
+                    <i class="fas fa-handshake"></i> 预约会议
+                </button>
+            </div>
+            
+            <!-- 页脚 -->
+            <div class="content-card" style="text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                <p>2025 KELLYONE COFFEE<span class="registered-symbol">®</span> | 创新闭环咖啡产业链生态网络 | 9大平台生态系统</p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem;">本网站所有内容仅供参考，不构成投资建议</p>
+            </div>
+        </div>
+        
+        <!-- 右侧信息栏 -->
+        <div class="sidebar-right">
+            <div class="right-section">
+                <div class="right-title">关键里程碑</div>
+                <div class="contact-card">
+                    <div style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                        <div style="font-weight: bold; color: var(--accent-green);">
+                            <i class="fas fa-check-circle"></i> 独家授权签约完成
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                            获得全国唯一独家授权巴拿马原种子认证机构的幼苗供应协议
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                        <div style="font-weight: bold; color: var(--accent-blue);">
+                            <i class="fas fa-map-marker-alt"></i> 广州种植基地启动
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                            广州郊区首个水培种植基地已完成选址和规划
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div style="font-weight: bold; color: var(--accent-orange);">
+                            <i class="fas fa-handshake"></i> 合作基地意向
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                            已与3家咖啡种植基地达成合作意向
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="right-title">市场规模</div>
+                <div class="contact-card">
+                    <div style="margin-bottom: 1rem;">
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">云南咖啡幼苗市场</div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-blue);">4,000-6,000万株/年</div>
+                    </div>
+                    
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">全球咖啡市场</div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-green);">$4600亿</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;">年市场规模，年增长5.5%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="right-title">技术壁垒</div>
+                <div class="contact-card">
+                    <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                        <div style="width: 10px; height: 10px; background-color: var(--accent-green); border-radius: 50%; margin-right: 0.75rem;"></div>
+                        <div>基因验证巴拿马瑰夏技术</div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                        <div style="width: 10px; height: 10px; background-color: var(--accent-blue); border-radius: 50%; margin-right: 0.75rem;"></div>
+                        <div>水培系统（节水95%）</div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                        <div style="width: 10px; height: 10px; background-color: var(--accent-orange); border-radius: 50%; margin-right: 0.75rem;"></div>
+                        <div>3个月生长周期（传统6个月）</div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 10px; height: 10px; background-color: var(--accent-purple); border-radius: 50%; margin-right: 0.75rem;"></div>
+                        <div>9大平台生态系统闭环</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 生态系统模态框 -->
+    <div id="ecosystemModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-network-wired"></i> KELLYONE COFFEE 9大平台生态系统
+                </h2>
+                <button onclick="closeModal('ecosystemModal')" class="close-modal">
+                    &times;
+                </button>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="platform-modal-card" data-url="https://www.nexcoffee.cn" style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent-green); cursor: pointer;">
+                    <h4 style="color: var(--accent-green); margin-bottom: 0.5rem;">
+                        <i class="fas fa-seedling"></i> www.nexcoffee.cn
+                    </h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        零碳农业与RWA资产创建。水培农场运营、实物资产(RWA)代币化、碳信用生成。
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="profit-model-tag">RWA代币化收入</span>
+                        <span class="profit-model-tag">碳信用交易</span>
+                        <span class="profit-model-tag">咖啡豆销售</span>
+                    </div>
+                </div>
+                
+                <div class="platform-modal-card" data-url="https://www.hydrocoffee.cn" style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent-orange); cursor: pointer;">
+                    <h4 style="color: var(--accent-orange); margin-bottom: 0.5rem;">
+                        <i class="fas fa-cogs"></i> www.hydrocoffee.cn
+                    </h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        水培技术研发中心。气雾栽培技术研发、系统解决方案、农场部署。
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="profit-model-tag">技术授权费</span>
+                        <span class="profit-model-tag">设备销售</span>
+                        <span class="profit-model-tag">咨询服务</span>
+                    </div>
+                </div>
+                
+                <div class="platform-modal-card" data-url="http://www.jebiwork.com" style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #8B4513; cursor: pointer;">
+                    <h4 style="color: #8B4513; margin-bottom: 0.5rem;">
+                        <i class="fas fa-fire"></i> www.jebiwork.com
+                    </h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        咖啡加工与烘焙平台。专业咖啡豆加工、定制化烘焙方案、品质检测、供应链管理。
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="profit-model-tag">加工服务费</span>
+                        <span class="profit-model-tag">烘焙产品销售</span>
+                        <span class="profit-model-tag">品质检测服务</span>
+                    </div>
+                </div>
+                
+                <div class="platform-modal-card" data-url="https://www.jebi.one" style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent-cyan); cursor: pointer;">
+                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">
+                        <i class="fas fa-brain"></i> www.jebi.one
+                    </h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        咖啡产业AI操作系统。全产业链数据整合、AI决策、质量检测、供应链管理。
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="profit-model-tag">SaaS订阅费</span>
+                        <span class="profit-model-tag">数据分析服务</span>
+                        <span class="profit-model-tag">AI决策咨询</span>
+                    </div>
+                </div>
+                
+                <div class="platform-modal-card" data-url="https://www.SHINAEbank.com" style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent-blue); cursor: pointer;">
+                    <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem;">
+                        <i class="fas fa-university"></i> www.SHINAEbank.com
+                    </h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        咖啡产业数字银行。智能云仓、供应链金融、现货期货交易、产业保险。
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="profit-model-tag">金融服务费</span>
+                        <span class="profit-model-tag">交易手续费</span>
+                        <span class="profit-model-tag">保险佣金</span>
+                    </div>
+                </div>
+                
+                <div class="platform-modal-card" data-url="https://www.curvecopyright.com" style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent-pink); cursor: pointer;">
+                    <h4 style="color: var(--accent-pink); margin-bottom: 0.5rem;">
+                        <i class="fas fa-copyright"></i> www.curvecopyright.com
+                    </h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        咖啡IP与数字资产平台。烘焙曲线IP数据库、RWA数字护照、NFT交易、AI烘焙机。
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="profit-model-tag">IP授权费</span>
+                        <span class="profit-model-tag">NFT交易佣金</span>
+                        <span class="profit-model-tag">数字护照服务费</span>
+                    </div>
+                </div>
+                
+                <div class="platform-modal-card" data-url="https://www.REITs.cafe" style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent-purple); cursor: pointer;">
+                    <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem;">
+                        <i class="fas fa-chart-line"></i> www.REITs.cafe
+                    </h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        咖啡全产业链REITs平台。农场、加工厂、门店等实物资产证券化、REITs发行与交易。
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="profit-model-tag">资产管理费</span>
+                        <span class="profit-model-tag">REITs发行佣金</span>
+                        <span class="profit-model-tag">交易手续费</span>
+                    </div>
+                </div>
+                
+                <div class="platform-modal-card" data-url="https://www.jebistarter.com" style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent-yellow); cursor: pointer;">
+                    <h4 style="color: var(--accent-yellow); margin-bottom: 0.5rem;">
+                        <i class="fas fa-hands-helping"></i> www.jebistarter.com
+                    </h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        低碳生活众筹与零售。创新产品众筹、可持续零售、社区体验、低碳教育。
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="profit-model-tag">众筹佣金</span>
+                        <span class="profit-model-tag">零售利润</span>
+                        <span class="profit-model-tag">社区会员费</span>
+                    </div>
+                </div>
+                
+                <div class="platform-modal-card" data-url="https://www.jebi.cafe" style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #8B4513; cursor: pointer;">
+                    <h4 style="color: #8B4513; margin-bottom: 0.5rem;">
+                        <i class="fas fa-coffee"></i> www.jebi.cafe
+                    </h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        零碳精品咖啡连锁品牌。线下精品咖啡门店、零碳消费体验、品牌价值实现。
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="profit-model-tag">门店零售收入</span>
+                        <span class="profit-model-tag">加盟费</span>
+                        <span class="profit-model-tag">品牌授权费</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; padding: 1.5rem; background-color: rgba(29, 155, 240, 0.1); border-radius: 12px;">
+                <h4 style="color: var(--accent-blue); margin-bottom: 1rem;">
+                    <i class="fas fa-sync-alt"></i> 生态系统价值闭环
+                </h4>
+                <p style="color: var(--text-secondary);">
+                    9大平台形成完整内循环：<span class="highlight-green">生产创造资产</span> → 
+                    <span class="highlight-orange">加工提升价值</span> → 
+                    <span class="highlight">数字化与IP化</span> → 
+                    <span class="highlight-blue">金融化与证券化</span> → 
+                    <span class="highlight-purple">品牌消费实现价值</span> → 
+                    <span class="highlight">数据反馈优化生产</span>。价值在系统内循环放大，极少外流，形成自我强化的增长飞轮。
+                </p>
+            </div>
+            
+            <button onclick="closeModal('ecosystemModal')" class="primary-button" style="width: 100%; margin-top: 1.5rem;">
+                <i class="fas fa-times"></i> 关闭
+            </button>
+        </div>
+    </div>
+
+    <!-- ICO报告模态框 -->
+    <div id="icoReportModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-file-contract"></i> 国际咖啡组织(ICO) 2017年研究报告摘要
+                </h2>
+                <button onclick="closeModal('icoReportModal')" class="close-modal">
+                    &times;
+                </button>
+            </div>
+            
+            <div class="ico-report-content">
+                <h3>报告背景</h3>
+                <p>国际咖啡组织(International Coffee Organization, ICO)在2017年发布的研究报告《气候变化对全球咖啡生产的影响》中指出，气候变化正对全球咖啡产业构成严重威胁。</p>
+                
+                <h3>主要研究发现</h3>
+                <ul>
+                    <li><span class="highlight-green">种植面积减少</span>：到2050年，适合咖啡种植的土地面积预计将减少<span class="highlight">50%</span>，主要由于温度上升和降雨模式变化。</li>
+                    <li><span class="highlight-green">产量下降</span>：主要咖啡生产国如巴西、越南、哥伦比亚和印度尼西亚的产量预计将大幅下降。</li>
+                    <li><span class="highlight-green">病虫害增加</span>：气候变暖导致咖啡叶锈病和咖啡果小蠹等病虫害的传播范围扩大。</li>
+                    <li><span class="highlight-green">品质下降</span>：温度上升影响咖啡豆的化学成分，导致风味和香气品质下降。</li>
+                    <li><span class="highlight-green">小农户受影响最严重</span>：全球2500万咖啡小农户中，大多数缺乏适应气候变化的资源和能力。</li>
+                </ul>
+                
+                <h3>关键数据</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                    <div style="background-color: rgba(255, 107, 53, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-orange);">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-orange);">50%</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">2050年咖啡适宜种植面积减少</div>
+                    </div>
+                    <div style="background-color: rgba(29, 155, 240, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-blue);">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-blue);">25%</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">阿拉比卡咖啡种植区预计减少</div>
+                    </div>
+                    <div style="background-color: rgba(0, 255, 136, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-green);">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-green);">$2.5B</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">年度因气候变化造成的损失</div>
+                    </div>
+                </div>
+                
+                <h3>对咖啡品种的影响</h3>
+                <ul>
+                    <li><span class="highlight">阿拉比卡咖啡</span>：对温度变化最为敏感，适宜生长温度范围狭窄（18-22°C）。</li>
+                    <li><span class="highlight">罗布斯塔咖啡</span>：相对耐热，但品质通常低于阿拉比卡。</li>
+                    <li><span class="highlight">野生咖啡品种</span>：75%的野生咖啡品种面临灭绝风险，这将限制未来育种选择。</li>
+                </ul>
+                
+                <h3>解决方案建议</h3>
+                <ol>
+                    <li>开发耐气候变化的咖啡品种</li>
+                    <li>采用可持续农业实践（遮荫种植、水土保持）</li>
+                    <li>推广节水灌溉技术</li>
+                    <li>建立气候风险保险机制</li>
+                    <li>投资于咖啡种植区的生态恢复</li>
+                </ol>
+                
+                <blockquote>
+                    "气候变化对咖啡产业的威胁是真实且紧迫的。如果不采取行动，全球咖啡供应将面临严重风险，影响数百万咖啡农户的生计和全球咖啡爱好者的日常生活。" 
+                    <br>— ICO执行主任
+                </blockquote>
+                
+                <h3>KELLYONE COFFEE的应对方案</h3>
+                <p>针对ICO报告指出的挑战，KELLYONE COFFEE通过以下创新技术提供解决方案：</p>
+                <ul>
+                    <li><span class="highlight-green">水培技术</span>：完全控制生长环境，不受气候变化影响</li>
+                    <li><span class="highlight-green">垂直农业</span>：大幅提高土地利用率，减少土地使用</li>
+                    <li><span class="highlight-green">节水95%</span>：应对水资源短缺问题</li>
+                    <li><span class="highlight-green">室内种植</span>：避免极端天气和病虫害影响</li>
+                    <li><span class="highlight-green">全年生产</span>：消除季节性限制，确保稳定供应</li>
+                </ul>
+            </div>
+            
+            <button onclick="closeModal('icoReportModal')" class="primary-button" style="width: 100%; margin-top: 1.5rem;">
+                <i class="fas fa-times"></i> 关闭报告
+            </button>
+        </div>
+    </div>
+
+    <!-- 改进的预约会议模态框 -->
+    <div id="bookingModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-calendar-check"></i> 预约会议
+                </h2>
+                <button onclick="closeModal('bookingModal')" class="close-modal">
+                    &times;
+                </button>
+            </div>
+            
+            <div class="step-indicator">
+                <div class="step active" id="step1-indicator">
+                    <div class="step-number">1</div>
+                    <div class="step-label">基本信息</div>
+                </div>
+                <div class="step" id="step2-indicator">
+                    <div class="step-number">2</div>
+                    <div class="step-label">会议详情</div>
+                </div>
+                <div class="step" id="step3-indicator">
+                    <div class="step-number">3</div>
+                    <div class="step-label">确认预约</div>
+                </div>
+            </div>
+            
+            <form id="bookingForm">
+                <!-- 步骤1: 基本信息 -->
+                <div class="booking-step active" id="step1">
+                    <div style="margin-bottom: 1.5rem;">
+                        <p style="color: var(--text-secondary);">请填写您的基本信息，以便我们更好地为您服务。</p>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="fullName">姓名 *</label>
+                            <input type="text" id="fullName" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="jobTitle">职位</label>
+                            <input type="text" id="jobTitle" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="company">公司/机构 *</label>
+                            <input type="text" id="company" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="industry">所属行业 *</label>
+                            <select id="industry" class="form-control" required>
+                                <option value="">请选择</option>
+                                <option value="investment">投资机构</option>
+                                <option value="agriculture">农业/种植</option>
+                                <option value="technology">科技公司</option>
+                                <option value="retail">零售/餐饮</option>
+                                <option value="finance">金融/银行</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="email">邮箱地址 *</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="phone">联系电话 *</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" onclick="closeModal('bookingModal')" class="primary-button" style="background-color: transparent; border: 1px solid var(--border-color); color: var(--text-primary);">
+                            取消
+                        </button>
+                        <button type="button" class="primary-button" onclick="nextStep(2)">
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 步骤2: 会议详情 -->
+                <div class="booking-step" id="step2">
+                    <div style="margin-bottom: 1.5rem;">
+                        <p style="color: var(--text-secondary);">请选择您感兴趣的会议类型和时间。</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="interest">您感兴趣的领域 *</label>
+                        <select id="interest" class="form-control" required>
+                            <option value="">请选择</option>
+                            <option value="investment">天使投资</option>
+                            <option value="partnership">战略合作</option>
+                            <option value="technology">技术合作</option>
+                            <option value="distribution">渠道合作</option>
+                            <option value="franchise">加盟合作</option>
+                            <option value="other">其他</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="meetingType">会议类型 *</label>
+                        <select id="meetingType" class="form-control" required>
+                            <option value="">请选择</option>
+                            <option value="online">线上会议 (Zoom/Teams)</option>
+                            <option value="onsite">现场参观 (广州基地)</option>
+                            <option value="hybrid">混合会议 (线上+线下)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="preferredDate">首选日期 *</label>
+                            <input type="date" id="preferredDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="preferredTime">首选时间 *</label>
+                            <select id="preferredTime" class="form-control" required>
+                                <option value="">请选择</option>
+                                <option value="09:00">09:00 - 10:00</option>
+                                <option value="10:00">10:00 - 11:00</option>
+                                <option value="11:00">11:00 - 12:00</option>
+                                <option value="14:00">14:00 - 15:00</option>
+                                <option value="15:00">15:00 - 16:00</option>
+                                <option value="16:00">16:00 - 17:00</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="duration">会议时长</label>
+                        <select id="duration" class="form-control">
+                            <option value="30">30分钟</option>
+                            <option value="60" selected>60分钟</option>
+                            <option value="90">90分钟</option>
+                            <option value="120">120分钟</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="participants">参会人数</label>
+                        <input type="number" id="participants" class="form-control" min="1" max="10" value="1">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="primary-button" style="background-color: transparent; border: 1px solid var(--border-color); color: var(--text-primary);" onclick="prevStep(1)">
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button type="button" class="primary-button" onclick="nextStep(3)">
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 步骤3: 确认预约 -->
+                <div class="booking-step" id="step3">
+                    <div style="margin-bottom: 1.5rem;">
+                        <p style="color: var(--text-secondary);">请确认您的预约信息，并告诉我们您希望讨论的具体内容。</p>
+                    </div>
+                    
+                    <div class="booking-summary">
+                        <div class="summary-item">
+                            <div class="summary-label">姓名</div>
+                            <div class="summary-value" id="summary-name">-</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">公司</div>
+                            <div class="summary-value" id="summary-company">-</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">会议类型</div>
+                            <div class="summary-value" id="summary-type">-</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">日期与时间</div>
+                            <div class="summary-value" id="summary-datetime">-</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">会议时长</div>
+                            <div class="summary-value" id="summary-duration">-</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label class="form-label" for="message">会议目的与具体问题 *</label>
+                        <textarea id="message" class="form-control" rows="4" required placeholder="请简要说明您希望讨论的内容，例如：投资金额、合作方式、技术细节等..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="additionalInfo">其他需求或备注</label>
+                        <textarea id="additionalInfo" class="form-control" rows="2" placeholder="如有其他特殊需求，请在此说明..."></textarea>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(29, 155, 240, 0.1); border-radius: 8px;">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            <i class="fas fa-info-circle" style="color: var(--accent-blue); margin-right: 0.5rem;"></i>
+                            提交预约后，我们的团队将在24小时内通过邮件或电话与您联系确认会议安排。
+                        </p>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="primary-button" style="background-color: transparent; border: 1px solid var(--border-color); color: var(--text-primary);" onclick="prevStep(2)">
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button type="submit" class="primary-button">
+                            <i class="fas fa-paper-plane"></i> 提交预约
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 修复导航滚动问题 - 使用更可靠的方法
+        document.querySelectorAll('.sidebar-left .nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 获取目标部分ID
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        // 移除所有导航项的active类
+                        document.querySelectorAll('.sidebar-left .nav-item').forEach(nav => {
+                            nav.classList.remove('active');
+                        });
+                        
+                        // 为当前导航项添加active类
+                        this.classList.add('active');
+                        
+                        // 使用scrollIntoView方法，确保元素在视口中可见
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // 更新URL哈希（但不触发页面跳转）
+                        history.pushState(null, null, href);
+                    }
+                }
+            });
+        });
+        
+        // 修复页面滚动时的导航状态更新
+        function updateActiveNavOnScroll() {
+            const sections = document.querySelectorAll('.section-header');
+            const navItems = document.querySelectorAll('.sidebar-left .nav-item');
+            
+            let currentSectionId = '';
+            let closestDistance = Infinity;
+            
+            // 计算当前视口中的section
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                
+                // 检查元素是否在视口中或刚刚离开视口
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    const distance = Math.abs(rect.top - 100);
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        currentSectionId = section.id;
+                    }
+                }
+            });
+            
+            // 如果没有section在视口中，找到最近的section
+            if (!currentSectionId) {
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const distance = Math.abs(rect.top - 100);
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        currentSectionId = section.id;
+                    }
+                });
+            }
+            
+            // 更新导航状态
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                const href = item.getAttribute('href');
+                if (href && href.substring(1) === currentSectionId) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        
+        // 页面滚动时更新导航状态
+        window.addEventListener('scroll', updateActiveNavOnScroll);
+        
+        // 页面加载时更新导航状态
+        window.addEventListener('load', function() {
+            updateActiveNavOnScroll();
+            
+            // 处理URL哈希导航
+            if (window.location.hash) {
+                const targetId = window.location.hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    // 更新导航状态
+                    document.querySelectorAll('.sidebar-left .nav-item').forEach(nav => {
+                        nav.classList.remove('active');
+                        const href = nav.getAttribute('href');
+                        if (href && href.substring(1) === targetId) {
+                            nav.classList.add('active');
+                        }
+                    });
+                    
+                    // 滚动到目标位置
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 100);
+                }
+            }
+        });
+        
+        // 九大平台图标点击功能
+        document.querySelectorAll('.platform-card, .platform-modal-card, .blueprint-node').forEach(element => {
+            element.addEventListener('click', function() {
+                const url = this.getAttribute('data-url');
+                if (url) {
+                    window.open(url, '_blank');
+                }
+            });
+        });
+        
+        // 平台图标点击功能（单独图标）
+        document.querySelectorAll('.platform-icon').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.platform-card, .blueprint-node, .platform-modal-card');
+                if (card) {
+                    const url = card.getAttribute('data-url');
+                    if (url) {
+                        window.open(url, '_blank');
+                    }
+                }
+            });
+        });
+        
+        // 打开生态系统模态框
+        document.getElementById('openEcoModal').addEventListener('click', function() {
+            openModal('ecosystemModal');
+        });
+        
+        document.getElementById('viewEcosystem').addEventListener('click', function() {
+            openModal('ecosystemModal');
+        });
+        
+        // 打开ICO报告模态框
+        document.getElementById('openIcoReport').addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal('icoReportModal');
+        });
+        
+        // 打开预约会议模态框
+        document.getElementById('openBookingModal').addEventListener('click', function() {
+            openModal('bookingModal');
+            // 重置表单到第一步
+            resetBookingForm();
+        });
+        
+        // 模态框函数
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // 点击模态框外部关闭
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+        });
+        
+        // 预约表单多步骤功能
+        let currentStep = 1;
+        
+        function nextStep(step) {
+            // 验证当前步骤
+            if (!validateStep(currentStep)) {
+                return;
+            }
+            
+            // 隐藏当前步骤
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep}-indicator`).classList.remove('active');
+            
+            // 显示下一步
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}-indicator`).classList.add('active');
+            
+            // 如果是第三步，更新摘要
+            if (currentStep === 3) {
+                updateBookingSummary();
+            }
+        }
+        
+        function prevStep(step) {
+            // 隐藏当前步骤
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep}-indicator`).classList.remove('active');
+            
+            // 显示上一步
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.getElementById(`step${currentStep}-indicator`).classList.add('active');
+        }
+        
+        function validateStep(step) {
+            if (step === 1) {
+                const fullName = document.getElementById('fullName').value;
+                const company = document.getElementById('company').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                
+                if (!fullName || !company || !email || !phone) {
+                    alert('请填写所有必填字段（标有*的字段）');
+                    return false;
+                }
+                
+                // 简单的邮箱验证
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('请输入有效的邮箱地址');
+                    return false;
+                }
+            }
+            
+            if (step === 2) {
+                const interest = document.getElementById('interest').value;
+                const meetingType = document.getElementById('meetingType').value;
+                const preferredDate = document.getElementById('preferredDate').value;
+                const preferredTime = document.getElementById('preferredTime').value;
+                
+                if (!interest || !meetingType || !preferredDate || !preferredTime) {
+                    alert('请填写所有必填字段（标有*的字段）');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        function updateBookingSummary() {
+            document.getElementById('summary-name').textContent = document.getElementById('fullName').value;
+            document.getElementById('summary-company').textContent = document.getElementById('company').value;
+            
+            const meetingTypeSelect = document.getElementById('meetingType');
+            const meetingTypeText = meetingTypeSelect.options[meetingTypeSelect.selectedIndex].text;
+            document.getElementById('summary-type').textContent = meetingTypeText;
+            
+            const date = document.getElementById('preferredDate').value;
+            const time = document.getElementById('preferredTime').value;
+            document.getElementById('summary-datetime').textContent = `${date} ${time}:00`;
+            
+            const durationSelect = document.getElementById('duration');
+            const durationText = durationSelect.options[durationSelect.selectedIndex].text;
+            document.getElementById('summary-duration').textContent = durationText;
+        }
+        
+        function resetBookingForm() {
+            // 重置步骤
+            currentStep = 1;
+            document.querySelectorAll('.booking-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step1').classList.add('active');
+            
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active', 'completed');
+            });
+            document.getElementById('step1-indicator').classList.add('active');
+            
+            // 重置表单
+            document.getElementById('bookingForm').reset();
+            
+            // 设置默认日期为明天
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const formattedDate = tomorrow.toISOString().split('T')[0];
+            document.getElementById('preferredDate').value = formattedDate;
+            document.getElementById('preferredDate').min = formattedDate;
+        }
+        
+        // 处理预约表单提交
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 验证最后一步
+            if (!validateStep(3)) {
+                return;
+            }
+            
+            // 获取表单数据
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                jobTitle: document.getElementById('jobTitle').value,
+                company: document.getElementById('company').value,
+                industry: document.getElementById('industry').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                interest: document.getElementById('interest').value,
+                meetingType: document.getElementById('meetingType').value,
+                preferredDate: document.getElementById('preferredDate').value,
+                preferredTime: document.getElementById('preferredTime').value,
+                duration: document.getElementById('duration').value,
+                participants: document.getElementById('participants').value,
+                message: document.getElementById('message').value,
+                additionalInfo: document.getElementById('additionalInfo').value
+            };
+            
+            // 这里应该是实际的表单提交逻辑
+            // 例如：发送到服务器或发送电子邮件
+            
+            // 显示成功消息
+            alert('预约提交成功！我们的团队将在24小时内通过邮件或电话与您联系确认会议安排。');
+            
+            // 关闭模态框
+            closeModal('bookingModal');
+            
+            // 重置表单
+            resetBookingForm();
+        });
+        
+        // 初始化图表
+        function initCharts() {
+            // 收入预测图表
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['投资期', '第一年', '第二年', '第三年'],
+                    datasets: [
+                        {
+                            label: '收入（万元）',
+                            data: [0, 120, 360, 800],
+                            borderColor: '#00ff88',
+                            backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            borderWidth: 3
+                        },
+                        {
+                            label: '利润（万元）',
+                            data: [-100, 84, 252, 560],
+                            borderColor: '#1D9BF0',
+                            backgroundColor: 'rgba(29, 155, 240, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            borderWidth: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#8B98A5'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(139, 152, 165, 0.1)'
+                            },
+                            ticks: {
+                                color: '#8B98A5'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(139, 152, 165, 0.1)'
+                            },
+                            ticks: {
+                                color: '#8B98A5',
+                                callback: function(value) {
+                                    return value + '万';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 资金使用图表
+            const fundingCtx = document.getElementById('fundingChart').getContext('2d');
+            new Chart(fundingCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['设备采购 (60%)', '研发投入 (20%)', '运营费用 (15%)', '备用资金 (5%)'],
+                    datasets: [{
+                        data: [60, 20, 15, 5],
+                        backgroundColor: [
+                            '#00ff88',
+                            '#1D9BF0',
+                            '#FF6B35',
+                            '#9d4edd'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#8B98A5',
+                                padding: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 页面初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            
+            // 设置预约表单的默认日期为明天
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const formattedDate = tomorrow.toISOString().split('T')[0];
+            document.getElementById('preferredDate').value = formattedDate;
+            document.getElementById('preferredDate').min = formattedDate;
+        });
+    </script>
+</body>
+</html>
