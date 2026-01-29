@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEBIstarter® | 咖啡主题低碳生活购物中心</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --x-blue: #1D9BF0;
+            --x-blue-hover: #1A8CD8;
+            --x-dark-bg: #000000;
+            --x-card-bg: #16181C;
+            --x-light-gray: #71767B;
+            --x-border: #2F3336;
+            --x-white: #FFFFFF;
+            --x-green: #00BA7C;
+            --x-red: #F4212E;
+            --x-gray-text: #E7E9EA;
+            --x-light-card: #202327;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--x-dark-bg);
+            color: var(--x-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏 - X风格 */
+        header {
+            background-color: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--x-border);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            color: var(--x-white);
+        }
+        
+        .logo i {
+            color: var(--x-blue);
+            margin-right: 10px;
+        }
+        
+        .logo sup {
+            font-size: 0.6rem;
+            color: var(--x-blue);
+            vertical-align: super;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--x-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover {
+            color: var(--x-blue);
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--x-card-bg);
+            border-radius: 9999px;
+            padding: 0.6rem 1rem;
+            margin-right: 1rem;
+            border: 1px solid var(--x-border);
+        }
+        
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 0.3rem;
+            width: 180px;
+            outline: none;
+            color: var(--x-white);
+        }
+        
+        .search-box i {
+            color: var(--x-light-gray);
+            margin-right: 8px;
+        }
+        
+        .cta-button {
+            background-color: var(--x-blue);
+            color: #FFFFFF;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--x-blue-hover);
+        }
+        
+        .secondary-button {
+            background-color: transparent;
+            color: var(--x-blue);
+            border: 1px solid var(--x-light-gray);
+            padding: 0.7rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .secondary-button:hover {
+            background-color: rgba(29, 155, 240, 0.1);
+        }
+        
+        /* 主视觉区域 - X风格 */
+        .hero {
+            background-color: var(--x-dark-bg);
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--x-white);
+            padding: 0 1rem;
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(29, 155, 240, 0.15), transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(0, 186, 124, 0.1), transparent 50%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--x-light-gray);
+        }
+        
+        /* 区域部分 */
+        section {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--x-white);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .section-title p {
+            color: var(--x-light-gray);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        /* 理念部分 - X风格卡片 */
+        .concept-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .concept-card {
+            background-color: var(--x-card-bg);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            border: 1px solid var(--x-border);
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .concept-card:hover {
+            background-color: var(--x-light-card);
+            border-color: var(--x-light-gray);
+        }
+        
+        .concept-card i {
+            font-size: 2.5rem;
+            color: var(--x-blue);
+            margin-bottom: 1.5rem;
+        }
+        
+        .concept-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--x-white);
+            font-weight: 700;
+        }
+        
+        .concept-card p {
+            color: var(--x-light-gray);
+            line-height: 1.7;
+        }
+        
+        /* 空间体验 - X风格 */
+        .spaces-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .space-card {
+            background-color: var(--x-card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--x-border);
+            transition: all 0.3s;
+        }
+        
+        .space-card:hover {
+            background-color: var(--x-light-card);
+            border-color: var(--x-light-gray);
+        }
+        
+        .space-img {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--x-blue), var(--x-green));
+        }
+        
+        .space-content {
+            padding: 1.5rem;
+        }
+        
+        .space-content h3 {
+            color: var(--x-white);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .space-content p {
+            color: var(--x-light-gray);
+            line-height: 1.6;
+        }
+        
+        /* 众筹项目 - X风格 */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .project-card {
+            background-color: var(--x-card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--x-border);
+            transition: all 0.3s;
+        }
+        
+        .project-card:hover {
+            background-color: var(--x-light-card);
+            border-color: var(--x-light-gray);
+        }
+        
+        .project-header {
+            padding: 1.5rem;
+            background-color: var(--x-card-bg);
+            color: var(--x-white);
+            border-bottom: 1px solid var(--x-border);
+        }
+        
+        .project-header h3 {
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .project-header p {
+            color: var(--x-light-gray);
+        }
+        
+        .project-progress {
+            height: 6px;
+            background-color: var(--x-border);
+            border-radius: 3px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--x-blue);
+            border-radius: 3px;
+        }
+        
+        .project-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--x-light-gray);
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .tag {
+            background-color: var(--x-light-card);
+            color: var(--x-blue);
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--x-border);
+        }
+        
+        .project-content p {
+            color: var(--x-light-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        /* 可持续数据 - X风格 */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-item {
+            background-color: var(--x-card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--x-border);
+            transition: all 0.3s;
+        }
+        
+        .stat-item:hover {
+            background-color: var(--x-light-card);
+            border-color: var(--x-light-gray);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--x-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-item p {
+            color: var(--x-light-gray);
+            font-weight: 500;
+        }
+        
+        /* 社区动态 - X风格 */
+        .community-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .community-card {
+            background-color: var(--x-card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--x-border);
+            transition: all 0.3s;
+        }
+        
+        .community-card:hover {
+            background-color: var(--x-light-card);
+            border-color: var(--x-light-gray);
+        }
+        
+        .event-date {
+            background-color: var(--x-blue);
+            color: white;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .community-card h3 {
+            color: var(--x-white);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .community-card p {
+            color: var(--x-light-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        /* 页脚 - X风格 */
+        footer {
+            background-color: var(--x-card-bg);
+            color: var(--x-white);
+            padding: 3rem 5%;
+            border-top: 1px solid var(--x-border);
+        }
+        
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            color: var(--x-white);
+            font-weight: 700;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links i {
+            margin-right: 10px;
+            color: var(--x-light-gray);
+            width: 16px;
+        }
+        
+        .footer-links a {
+            color: var(--x-light-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--x-blue);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            color: var(--x-light-gray);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--x-blue);
+        }
+        
+        .footer-column p {
+            color: var(--x-light-gray);
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.7rem;
+            border: 1px solid var(--x-border);
+            border-radius: 9999px 0 0 9999px;
+            outline: none;
+            background-color: var(--x-dark-bg);
+            color: var(--x-white);
+        }
+        
+        .newsletter-form button {
+            background-color: var(--x-blue);
+            color: white;
+            border: none;
+            padding: 0 1.2rem;
+            border-radius: 0 9999px 9999px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: var(--x-blue-hover);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--x-border);
+            color: var(--x-light-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            section {
+                padding: 3rem 5%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                display: none;
+            }
+            
+            .hero {
+                height: 60vh;
+                margin-top: 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .nav-actions {
+                gap: 0.5rem;
+            }
+            
+            .secondary-button, .cta-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+        
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--x-card-bg);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--x-border);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--x-light-gray);
+        }
+        
+        /* 模态框样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: var(--x-card-bg);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--x-border);
+            position: relative;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--x-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            color: var(--x-white);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--x-light-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .modal-close:hover {
+            background-color: var(--x-border);
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-body p {
+            color: var(--x-light-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--x-white);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--x-dark-bg);
+            border: 1px solid var(--x-border);
+            border-radius: 8px;
+            color: var(--x-white);
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--x-blue);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .support-option {
+            background-color: var(--x-dark-bg);
+            border: 1px solid var(--x-border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .support-option:hover,
+        .support-option.selected {
+            border-color: var(--x-blue);
+            background-color: rgba(29, 155, 240, 0.1);
+        }
+        
+        .support-option .amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--x-white);
+            margin-bottom: 0.3rem;
+        }
+        
+        .support-option .description {
+            font-size: 0.8rem;
+            color: var(--x-light-gray);
+        }
+        
+        .event-details {
+            background-color: var(--x-dark-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--x-border);
+        }
+        
+        .event-details h4 {
+            color: var(--x-white);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .event-details ul {
+            padding-left: 1.5rem;
+            color: var(--x-light-gray);
+            margin-bottom: 1rem;
+        }
+        
+        .event-details li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--x-border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        .success-message {
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+        
+        .success-message i {
+            font-size: 4rem;
+            color: var(--x-green);
+            margin-bottom: 1.5rem;
+        }
+        
+        .success-message h3 {
+            color: var(--x-white);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .project-summary {
+            background-color: var(--x-dark-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--x-border);
+        }
+        
+        .project-summary h4 {
+            color: var(--x-white);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-feather-alt"></i>
+                <span>JEBIstarter<sup>®</sup></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#concept">核心理念</a></li>
+                <li><a href="#spaces">空间体验</a></li>
+                <li><a href="#projects">创新众筹</a></li>
+                <li><a href="#sustainability">低碳承诺</a></li>
+                <li><a href="#community">社区动态</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="搜索项目...">
+                </div>
+                <button class="secondary-button" onclick="openModal('loginModal')">登录</button>
+                <button class="cta-button" onclick="openModal('membershipModal')">成为会员</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主视觉区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>从创意到生活方式</h1>
+            <p>全球首个融合X.com设计理念的咖啡主题低碳生活购物中心</p>
+            <button class="cta-button" style="padding: 0.9rem 2rem; font-size: 1rem;">探索空间</button>
+        </div>
+    </section>
+
+    <!-- 核心理念 -->
+    <section id="concept">
+        <div class="section-title">
+            <h2>我们的理念</h2>
+            <p>融合创新众筹与可持续生活，打造未来零售新体验</p>
+        </div>
+        <div class="concept-cards">
+            <div class="concept-card">
+                <i class="fas fa-bolt"></i>
+                <h3>创新孵化</h3>
+                <p>为新兴咖啡器具和环保产品提供展示与测试平台，让创意在这里生根发芽。</p>
+            </div>
+            <div class="concept-card">
+                <i class="fas fa-leaf"></i>
+                <h3>低碳生活</h3>
+                <p>推广可持续生活方式，从产品设计到运营全程贯彻环保理念。</p>
+            </div>
+            <div class="concept-card">
+                <i class="fas fa-users"></i>
+                <h3>社区共建</h3>
+                <p>打造活跃社群，让消费者成为产品共创者和品牌传播者。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 空间体验 -->
+    <section id="spaces">
+        <div class="section-title">
+            <h2>空间体验</h2>
+            <p>四大功能区，全方位沉浸式咖啡与低碳生活体验</p>
+        </div>
+        <div class="spaces-container">
+            <div class="space-card">
+                <div class="space-img">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="space-content">
+                    <h3>孵化区</h3>
+                    <p>展示和众筹新兴咖啡器具与环保产品，让创意在此验证市场。</p>
+                </div>
+            </div>
+            <div class="space-card">
+                <div class="space-img">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="space-content">
+                    <h3>体验工坊</h3>
+                    <p>咖啡烘焙、手冲教学和DIY工作坊，亲手创造可持续生活。</p>
+                </div>
+            </div>
+            <div class="space-card">
+                <div class="space-img">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="space-content">
+                    <h3>可持续零售区</h3>
+                    <p>销售已通过市场验证的成熟低碳品牌产品，打造循环经济。</p>
+                </div>
+            </div>
+            <div class="space-card">
+                <div class="space-img">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="space-content">
+                    <h3>共享绿洲</h3>
+                    <p>舒适的共享办公与社交空间，享受高品质咖啡与绿色环境。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 创新众筹 -->
+    <section id="projects">
+        <div class="section-title">
+            <h2>创新众筹</h2>
+            <p>正在进行的创新项目，支持它们成为现实</p>
+        </div>
+        <div class="projects-container">
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>智能可降解咖啡胶囊</h3>
+                    <p>完全可堆肥的单杯咖啡解决方案</p>
+                </div>
+                <div class="project-content">
+                    <div class="project-progress">
+                        <div class="progress-bar" style="width: 75%;"></div>
+                    </div>
+                    <div class="project-stats">
+                        <span>已筹: ¥152,340</span>
+                        <span>75%</span>
+                        <span>剩余: 15天</span>
+                    </div>
+                    <div class="project-tags">
+                        <span class="tag">可持续包装</span>
+                        <span class="tag">技术创新</span>
+                        <span class="tag">咖啡体验</span>
+                    </div>
+                    <p>革命性的可堆肥咖啡胶囊，60天内完全分解，不产生微塑料。</p>
+                    <button class="cta-button" style="width: 100%;" onclick="openModal('supportProject1Modal')">支持项目</button>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>太阳能咖啡烘焙机</h3>
+                    <p>零碳排放的小型商用烘焙设备</p>
+                </div>
+                <div class="project-content">
+                    <div class="project-progress">
+                        <div class="progress-bar" style="width: 42%;"></div>
+                    </div>
+                    <div class="project-stats">
+                        <span>已筹: ¥89,650</span>
+                        <span>42%</span>
+                        <span>剩余: 28天</span>
+                    </div>
+                    <div class="project-tags">
+                        <span class="tag">清洁能源</span>
+                        <span class="tag">咖啡烘焙</span>
+                        <span class="tag">小型商业</span>
+                    </div>
+                    <p>利用太阳能进行咖啡烘焙，专为小型咖啡馆和烘焙工坊设计。</p>
+                    <button class="cta-button" style="width: 100%;" onclick="openModal('supportProject2Modal')">支持项目</button>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>咖啡渣升级再造计划</h3>
+                    <p>将废弃咖啡渣转化为可持续产品</p>
+                </div>
+                <div class="project-content">
+                    <div class="project-progress">
+                        <div class="progress-bar" style="width: 93%;"></div>
+                    </div>
+                    <div class="project-stats">
+                        <span>已筹: ¥203,780</span>
+                        <span>93%</span>
+                        <span>剩余: 5天</span>
+                    </div>
+                    <div class="project-tags">
+                        <span class="tag">循环经济</span>
+                        <span class="tag">升级再造</span>
+                        <span class="tag">社区参与</span>
+                    </div>
+                    <p>将咖啡渣转化为生物塑料、化妆品和燃料，实现零浪费循环。</p>
+                    <button class="cta-button" style="width: 100%;" onclick="openModal('supportProject3Modal')">支持项目</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 可持续数据 -->
+    <section id="sustainability">
+        <div class="section-title">
+            <h2>低碳承诺</h2>
+            <p>我们的环境影响数据，透明公开</p>
+        </div>
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">3.2T</div>
+                <p>每月碳减排量</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">78%</div>
+                <p>太阳能供电比例</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">95%</div>
+                <p>废弃物回收率</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">42</div>
+                <p>可持续品牌合作伙伴</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 社区动态 -->
+    <section id="community">
+        <div class="section-title">
+            <h2>社区动态</h2>
+            <p>最新活动与社区故事</p>
+        </div>
+        <div class="community-container">
+            <div class="community-card">
+                <div class="event-date">6月15日</div>
+                <h3>咖啡渣手工皂工作坊</h3>
+                <p>学习如何将废弃咖啡渣转化为天然手工皂，体验升级再造的乐趣。</p>
+                <button class="cta-button" style="width: 100%;" onclick="openModal('registerEvent1Modal')">立即报名</button>
+            </div>
+            <div class="community-card">
+                <div class="event-date">6月22日</div>
+                <h3>可持续咖啡包装设计大赛</h3>
+                <p>展示你的创意，设计下一代可持续咖啡包装，赢取孵化机会。</p>
+                <button class="cta-button" style="width: 100%;" onclick="openModal('learnMoreEvent2Modal')">了解更多</button>
+            </div>
+            <div class="community-card">
+                <div class="event-date">每周四</div>
+                <h3>零浪费咖啡品尝会</h3>
+                <p>品尝来自世界各地的可持续种植咖啡，学习零浪费冲泡技巧。</p>
+                <button class="cta-button" style="width: 100%;" onclick="openModal('scheduleEvent3Modal')">查看日程</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>JEBIstarter<sup>®</sup></h3>
+                <p>从创意到生活方式，打造咖啡主题的低碳生活新体验。</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="#concept">核心理念</a></li>
+                    <li><a href="#spaces">空间体验</a></li>
+                    <li><a href="#projects">创新众筹</a></li>
+                    <li><a href="#sustainability">低碳承诺</a></li>
+                    <li><a href="#community">社区动态</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>联系我们</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> <a href="#">深圳市南山区科技园</a></li>
+                    <li><i class="fas fa-phone"></i> <a href="#">+86 15800222338</a></li>
+                    <li><i class="fas fa-envelope"></i> <a href="#">erik.wong@jebi.space</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>订阅资讯</h3>
+                <p>获取最新活动信息与创新项目更新</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="您的电子邮箱">
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 JEBIstarter<sup>®</sup> 咖啡主题低碳生活购物中心. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- 模态框：登录 -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>登录账户</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>登录您的JEBIstarter账户，访问个性化内容和支持的项目。</p>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">电子邮箱</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">密码</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox"> 记住我
+                        </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="secondary-button" onclick="closeModal('loginModal')">取消</button>
+                        <button type="submit" class="cta-button">登录</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框：成为会员 -->
+    <div id="membershipModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>成为会员</h2>
+                <button class="modal-close" onclick="closeModal('membershipModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>加入JEBIstarter会员，享受独家权益，包括活动优先报名、会员专属折扣和项目内测机会。</p>
+                <div class="project-summary">
+                    <h4>会员权益</h4>
+                    <ul>
+                        <li>所有活动优先报名权</li>
+                        <li>合作品牌产品9折优惠</li>
+                        <li>每月免费参加一次工作坊</li>
+                        <li>新项目内测体验资格</li>
+                        <li>会员专属社区活动</li>
+                    </ul>
+                </div>
+                <form id="membershipForm" onsubmit="handleMembershipSignup(event)">
+                    <div class="form-group">
+                        <label for="membershipName">姓名</label>
+                        <input type="text" id="membershipName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="membershipEmail">电子邮箱</label>
+                        <input type="email" id="membershipEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="membershipPhone">手机号码</label>
+                        <input type="tel" id="membershipPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="membershipPlan">选择会员计划</label>
+                        <select id="membershipPlan" required>
+                            <option value="">请选择</option>
+                            <option value="basic">基础会员 - ¥199/年</option>
+                            <option value="premium">高级会员 - ¥399/年</option>
+                            <option value="vip">VIP会员 - ¥999/年</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="secondary-button" onclick="closeModal('membershipModal')">取消</button>
+                        <button type="submit" class="cta-button">立即加入</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框：支持项目1 - 智能可降解咖啡胶囊 -->
+    <div id="supportProject1Modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>支持项目：智能可降解咖啡胶囊</h2>
+                <button class="modal-close" onclick="closeModal('supportProject1Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="project-summary">
+                    <h4>项目简介</h4>
+                    <p>革命性的可堆肥咖啡胶囊，60天内完全分解，不产生微塑料。项目已筹集152,340元（75%），剩余时间15天。</p>
+                </div>
+                <p>选择您的支持金额：</p>
+                <div class="support-options">
+                    <div class="support-option" data-amount="59" onclick="selectSupportOption(this, 59)">
+                        <div class="amount">¥59</div>
+                        <div class="description">早鸟支持</div>
+                    </div>
+                    <div class="support-option" data-amount="99" onclick="selectSupportOption(this, 99)">
+                        <div class="amount">¥99</div>
+                        <div class="description">基础支持</div>
+                    </div>
+                    <div class="support-option" data-amount="199" onclick="selectSupportOption(this, 199)">
+                        <div class="amount">¥199</div>
+                        <div class="description">高级支持</div>
+                    </div>
+                    <div class="support-option" data-amount="399" onclick="selectSupportOption(this, 399)">
+                        <div class="amount">¥399</div>
+                        <div class="description">尊享支持</div>
+                    </div>
+                </div>
+                <form id="supportProject1Form" onsubmit="handleProjectSupport(event, '智能可降解咖啡胶囊')">
+                    <input type="hidden" id="selectedAmount" value="99">
+                    <div class="form-group">
+                        <label for="supportName">姓名</label>
+                        <input type="text" id="supportName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supportEmail">电子邮箱</label>
+                        <input type="email" id="supportEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supportAddress">收货地址</label>
+                        <textarea id="supportAddress" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="secondary-button" onclick="closeModal('supportProject1Modal')">取消</button>
+                        <button type="submit" class="cta-button">确认支持</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框：支持项目2 - 太阳能咖啡烘焙机 -->
+    <div id="supportProject2Modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>支持项目：太阳能咖啡烘焙机</h2>
+                <button class="modal-close" onclick="closeModal('supportProject2Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="project-summary">
+                    <h4>项目简介</h4>
+                    <p>利用太阳能进行咖啡烘焙，专为小型咖啡馆和烘焙工坊设计。项目已筹集89,650元（42%），剩余时间28天。</p>
+                </div>
+                <p>选择您的支持金额：</p>
+                <div class="support-options">
+                    <div class="support-option" data-amount="299" onclick="selectSupportOption(this, 299)">
+                        <div class="amount">¥299</div>
+                        <div class="description">基础支持</div>
+                    </div>
+                    <div class="support-option" data-amount="599" onclick="selectSupportOption(this, 599)">
+                        <div class="amount">¥599</div>
+                        <div class="description">高级支持</div>
+                    </div>
+                    <div class="support-option" data-amount="1299" onclick="selectSupportOption(this, 1299)">
+                        <div class="amount">¥1,299</div>
+                        <div class="description">尊享支持</div>
+                    </div>
+                    <div class="support-option" data-amount="2499" onclick="selectSupportOption(this, 2499)">
+                        <div class="amount">¥2,499</div>
+                        <div class="description">企业支持</div>
+                    </div>
+                </div>
+                <form id="supportProject2Form" onsubmit="handleProjectSupport(event, '太阳能咖啡烘焙机')">
+                    <input type="hidden" id="selectedAmount2" value="599">
+                    <div class="form-group">
+                        <label for="supportName2">姓名</label>
+                        <input type="text" id="supportName2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supportEmail2">电子邮箱</label>
+                        <input type="email" id="supportEmail2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supportAddress2">收货地址</label>
+                        <textarea id="supportAddress2" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="secondary-button" onclick="closeModal('supportProject2Modal')">取消</button>
+                        <button type="submit" class="cta-button">确认支持</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框：支持项目3 - 咖啡渣升级再造计划 -->
+    <div id="supportProject3Modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>支持项目：咖啡渣升级再造计划</h2>
+                <button class="modal-close" onclick="closeModal('supportProject3Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="project-summary">
+                    <h4>项目简介</h4>
+                    <p>将咖啡渣转化为生物塑料、化妆品和燃料，实现零浪费循环。项目已筹集203,780元（93%），剩余时间5天。</p>
+                </div>
+                <p>选择您的支持金额：</p>
+                <div class="support-options">
+                    <div class="support-option" data-amount="39" onclick="selectSupportOption(this, 39)">
+                        <div class="amount">¥39</div>
+                        <div class="description">基础支持</div>
+                    </div>
+                    <div class="support-option" data-amount="79" onclick="selectSupportOption(this, 79)">
+                        <div class="amount">¥79</div>
+                        <div class="description">高级支持</div>
+                    </div>
+                    <div class="support-option" data-amount="159" onclick="selectSupportOption(this, 159)">
+                        <div class="amount">¥159</div>
+                        <div class="description">尊享支持</div>
+                    </div>
+                    <div class="support-option" data-amount="299" onclick="selectSupportOption(this, 299)">
+                        <div class="amount">¥299</div>
+                        <div class="description">企业支持</div>
+                    </div>
+                </div>
+                <form id="supportProject3Form" onsubmit="handleProjectSupport(event, '咖啡渣升级再造计划')">
+                    <input type="hidden" id="selectedAmount3" value="79">
+                    <div class="form-group">
+                        <label for="supportName3">姓名</label>
+                        <input type="text" id="supportName3" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supportEmail3">电子邮箱</label>
+                        <input type="email" id="supportEmail3" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supportAddress3">收货地址</label>
+                        <textarea id="supportAddress3" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="secondary-button" onclick="closeModal('supportProject3Modal')">取消</button>
+                        <button type="submit" class="cta-button">确认支持</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框：立即报名 - 咖啡渣手工皂工作坊 -->
+    <div id="registerEvent1Modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>报名活动：咖啡渣手工皂工作坊</h2>
+                <button class="modal-close" onclick="closeModal('registerEvent1Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="event-details">
+                    <h4>活动详情</h4>
+                    <p><strong>日期：</strong>6月15日（周六）</p>
+                    <p><strong>时间：</strong>14:00 - 17:00</p>
+                    <p><strong>地点：</strong>JEBIstarter体验工坊</p>
+                    <p><strong>费用：</strong>会员免费，非会员¥89</p>
+                    <h4>活动内容</h4>
+                    <ul>
+                        <li>学习咖啡渣的环保价值</li>
+                        <li>亲手制作天然咖啡渣手工皂</li>
+                        <li>了解升级再造的基本原理</li>
+                        <li>带走自己制作的3块手工皂</li>
+                    </ul>
+                </div>
+                <form id="registerEvent1Form" onsubmit="handleEventRegistration(event, '咖啡渣手工皂工作坊')">
+                    <div class="form-group">
+                        <label for="eventName">姓名</label>
+                        <input type="text" id="eventName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventEmail">电子邮箱</label>
+                        <input type="email" id="eventEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventPhone">手机号码</label>
+                        <input type="tel" id="eventPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventParticipants">参加人数</label>
+                        <select id="eventParticipants" required>
+                            <option value="1">1人</option>
+                            <option value="2">2人</option>
+                            <option value="3">3人</option>
+                            <option value="4">4人</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="secondary-button" onclick="closeModal('registerEvent1Modal')">取消</button>
+                        <button type="submit" class="cta-button">确认报名</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框：了解更多 - 可持续咖啡包装设计大赛 -->
+    <div id="learnMoreEvent2Modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>可持续咖啡包装设计大赛</h2>
+                <button class="modal-close" onclick="closeModal('learnMoreEvent2Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="event-details">
+                    <h4>大赛详情</h4>
+                    <p><strong>提交截止：</strong>6月22日</p>
+                    <p><strong>结果公布：</strong>7月10日</p>
+                    <p><strong>参赛对象：</strong>所有设计师、设计爱好者及环保创意者</p>
+                    <p><strong>奖项：</strong>一等奖1名（¥5,000 + 孵化机会），二等奖2名（¥2,000），三等奖5名（¥500）</p>
+                    <h4>设计要求</h4>
+                    <ul>
+                        <li>材料必须可回收或可降解</li>
+                        <li>设计需考虑实际生产可行性</li>
+                        <li>包装需适用于咖啡豆/粉保存</li>
+                        <li>创意与环保理念结合</li>
+                    </ul>
+                    <h4>如何参赛</h4>
+                    <p>请将设计作品（JPG/PDF格式）发送至 design@jebi.space，邮件标题注明"包装设计大赛-姓名-联系方式"。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="secondary-button" onclick="closeModal('learnMoreEvent2Modal')">关闭</button>
+                    <a href="mailto:design@jebi.space?subject=包装设计大赛咨询" class="cta-button" style="text-decoration: none;">咨询详情</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框：查看日程 - 零浪费咖啡品尝会 -->
+    <div id="scheduleEvent3Modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>零浪费咖啡品尝会日程</h2>
+                <button class="modal-close" onclick="closeModal('scheduleEvent3Modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="event-details">
+                    <h4>活动日程（每周四）</h4>
+                    <p><strong>6月6日：</strong>哥伦比亚可持续种植咖啡品尝</p>
+                    <p><strong>6月13日：</strong>埃塞俄比亚原生种咖啡品尝</p>
+                    <p><strong>6月20日：</strong>巴西雨林联盟认证咖啡品尝</p>
+                    <p><strong>6月27日：</strong>云南小粒咖啡可持续种植专题</p>
+                    <p><strong>7月4日：</strong>印度尼西亚有机咖啡品尝</p>
+                    <p><strong>7月11日：</strong>危地马拉公平贸易咖啡品尝</p>
+                    <h4>活动详情</h4>
+                    <p><strong>时间：</strong>每周四 19:00 - 21:00</p>
+                    <p><strong>地点：</strong>JEBIstarter共享绿洲</p>
+                    <p><strong>费用：</strong>会员¥59，非会员¥99</p>
+                    <p><strong>每场限：</strong>15人</p>
+                    <h4>活动内容</h4>
+                    <ul>
+                        <li>品尝3-4种不同产地的可持续种植咖啡</li>
+                        <li>学习零浪费冲泡技巧</li>
+                        <li>了解咖啡豆的可持续种植故事</li>
+                        <li>与咖啡师和其他爱好者交流</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="secondary-button" onclick="closeModal('scheduleEvent3Modal')">关闭</button>
+                    <button type="button" class="cta-button" onclick="openModal('registerEvent1Modal')">立即报名</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 成功消息模态框 -->
+    <div id="successModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <h3 id="successTitle">操作成功！</h3>
+                    <p id="successMessage">您的操作已成功完成。</p>
+                    <button class="cta-button" onclick="closeModal('successModal')">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 简单的导航栏滚动效果
+        document.querySelectorAll('.nav-links a, .footer-links a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // 简单的数据更新效果
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                
+                if (element.textContent.includes('T')) {
+                    element.textContent = (value/1000).toFixed(1) + 'T';
+                } else if (element.textContent.includes('%')) {
+                    element.textContent = value + '%';
+                } else {
+                    element.textContent = value;
+                }
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+        
+        // 当可持续数据部分进入视口时触发动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = document.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const text = stat.textContent;
+                        let targetValue;
+                        
+                        if (text.includes('T')) {
+                            targetValue = parseFloat(text) * 1000;
+                        } else if (text.includes('%')) {
+                            targetValue = parseInt(text);
+                        } else {
+                            targetValue = parseInt(text);
+                        }
+                        
+                        animateValue(stat, 0, targetValue, 2000);
+                    });
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(document.getElementById('sustainability'));
+        
+        // 添加卡片悬停效果增强
+        document.querySelectorAll('.concept-card, .space-card, .project-card, .community-card, .stat-item').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // 模态框功能
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+        
+        // 支持选项选择功能
+        function selectSupportOption(element, amount) {
+            // 移除所有选项的选中状态
+            const parent = element.parentElement;
+            parent.querySelectorAll('.support-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // 添加当前选项的选中状态
+            element.classList.add('selected');
+            
+            // 更新隐藏的输入值
+            const form = element.closest('form');
+            const amountInput = form.querySelector('input[type="hidden"]');
+            amountInput.value = amount;
+        }
+        
+        // 表单处理函数
+        function handleLogin(event) {
+            event.preventDefault();
+            closeModal('loginModal');
+            showSuccess('登录成功', '您已成功登录您的JEBIstarter账户。');
+        }
+        
+        function handleMembershipSignup(event) {
+            event.preventDefault();
+            closeModal('membershipModal');
+            showSuccess('会员注册成功', '感谢您成为JEBIstarter会员！会员卡将在3个工作日内发送至您的邮箱。');
+        }
+        
+        function handleProjectSupport(event, projectName) {
+            event.preventDefault();
+            const form = event.target;
+            const amount = form.querySelector('input[type="hidden"]').value;
+            closeModal(form.closest('.modal-overlay').id);
+            showSuccess('支持成功', `感谢您支持"${projectName}"项目！您的¥${amount}支持已确认，项目更新将发送至您的邮箱。`);
+        }
+        
+        function handleEventRegistration(event, eventName) {
+            event.preventDefault();
+            closeModal(event.target.closest('.modal-overlay').id);
+            showSuccess('报名成功', `您已成功报名"${eventName}"！活动详情已发送至您的邮箱。`);
+        }
+        
+        // 显示成功消息
+        function showSuccess(title, message) {
+            document.getElementById('successTitle').textContent = title;
+            document.getElementById('successMessage').textContent = message;
+            openModal('successModal');
+        }
+    </script>
+
+<!-- 返回主平台按钮 -->
+<div style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:9999;">
+<a href="/index.html" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,#00BA7C,#1D9BF0);color:white;padding:15px 30px;border-radius:50px;text-decoration:none;font-weight:600;box-shadow:0 4px 15px rgba(0,186,124,0.3);cursor:pointer;font-size:16px;min-width:250px;justify-content:center;">
+<i class="fas fa-home"></i>返回 JEBI Coffee 生态平台
+</a>
+</div>
+</body>
+</html>
